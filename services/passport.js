@@ -5,6 +5,17 @@ const keys = require("../config/keys");
 
 const User = mongoose.model("users");
 
+passport.serializeUser((user, done) => {
+    done(null, user.id); // this id is a shortcut to the _id.$oid in mongodb
+});
+
+passport.deserializeUser((id, done) => {
+    User.findById(id)
+        .then(userInDb => {
+            done(null, userInDb);
+        });
+});
+
 passport.use(new GoogleStrategy({
     clientID: keys.googleClientID, // capital ID, important
     clientSecret: keys.googleClientSecret,
