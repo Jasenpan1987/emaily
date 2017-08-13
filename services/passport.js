@@ -9,11 +9,9 @@ passport.serializeUser((user, done) => {
     done(null, user.id); // this id is a shortcut to the _id.$oid in mongodb
 });
 
-passport.deserializeUser((id, done) => {
-    User.findById(id)
-        .then(userInDb => {
-            done(null, userInDb);
-        });
+passport.deserializeUser(async (id, done) => {
+    const userInDb = await User.findById(id);
+    done(null, userInDb);
 });
 
 passport.use(new GoogleStrategy({
@@ -21,17 +19,12 @@ passport.use(new GoogleStrategy({
     clientSecret: keys.googleClientSecret,
     callbackURL: "/auth/google/callback", // redirect to here when user coming back from google
     proxy: true
-}, (accessToken, refreshToken, profile, done) => {
-    User.findOne({ googleId: profile.id })
-        .then(userInDb => {
-            if(userInDb) {
-                // already have the record for this googleId
-                done(null, userInDb);
-            }else {
-                // new user
-                new User({ googleId: profile.id })
-                    .save()
-                    .then(newUser => done(null, newUser));
-            }
-        });
+}, async (accessToken, refreshToken, profile, done) => {
+    const userInDb = await User.findOne({ googleId: profile.id });
+    if(userInDb) {
+        return done(null, userInDb);
+    }
+    
+    const newUser = await new User({ googleId: profile.id }).save();
+    done(null, newUser);
 }));
