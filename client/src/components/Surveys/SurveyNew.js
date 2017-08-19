@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import SurveyForm from "./SurveyForm";
 
 class SurveyNew extends Component {
     render() {
-        return <h3>Form</h3>
+        return <SurveyForm />
     }
 }
 
