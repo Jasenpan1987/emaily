@@ -10,6 +10,9 @@ import rootReducer from "./reducers";
 // remove package-lock.json in client directory
 // run npm install
 
+import axios from "axios";
+window.axios = axios;
+
 const store = createStore(rootReducer, {},
     applyMiddleware(reduxThunk));
 

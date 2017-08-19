@@ -16,6 +16,7 @@ mongoose.connect(keys.mongoURI);
 
 const authRoutes = require("./routes/authRoutes"); 
 const billingRoutes = require("./routes/billingRoutes");
+const surveyRoutes = require("./routes/surveyRoutes");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(passport.session()); // enable passport session
 
 authRoutes(app);
 billingRoutes(app);
+surveyRoutes(app);
 
 if (process.env.NODE_ENV === 'production') {
     // express will serve up production assets (main.js or main.css ...)
