@@ -7,12 +7,12 @@ const requireCredit = require("../middlewares/requireCredit");
 const Survey = mongoose.model("surveys");
 
 module.exports = app => {
-    app.get("/api/survey/thanks", (req, res) => {
+    app.get("/api/surveys/thanks", (req, res) => {
         res.send("Thanks for voting.");
     });
 
     // create new survey
-    app.post("/api/survey", 
+    app.post("/api/surveys", 
         requireLogin,
         requireCredit,
         async (req, res) => {

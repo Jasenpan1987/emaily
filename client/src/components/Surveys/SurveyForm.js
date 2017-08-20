@@ -4,17 +4,11 @@ import _ from "lodash";
 import { reduxForm, Field } from "redux-form";
 import SurveyField from "./SurveyField";
 import { validateEmails } from "../../utils/validateEmail";
-
-const fields = [
-    { label: "Survey Title", name: "title" },
-    { label: "Subject Line", name: "subject" },
-    { label: "Email Body", name: "body" },
-    { label: "Recipient List", name: "emails" }
-];
+import formFields from "./formFields";
 
 class SurveyForm extends Component {
     renderFields() {
-        return _.map(fields, ({name, label}) => {
+        return _.map(formFields, ({name, label}) => {
             return (
                 <Field
                     key={name}
@@ -31,7 +25,7 @@ class SurveyForm extends Component {
         return (
             <div>
                 <form
-                    onSubmit={this.props.handleSubmit(values => console.log(values))}
+                    onSubmit={this.props.handleSubmit(this.props.toggleReview)}
                 >
                     {this.renderFields()}
                     <Link to="/surveys" className="red btn-flat left white-text">
@@ -42,7 +36,7 @@ class SurveyForm extends Component {
                         className="teal btn-flat right white-text"
                     >
                         Next
-                        <i className="material-icons right">done</i>
+                        <i className="material-icons right" >done</i>
                     </button>
                 </form>
             </div>
@@ -53,9 +47,9 @@ class SurveyForm extends Component {
 function validate(values) {
     const errors = {};
 
-    errors.emails = validateEmails(values.emails || '');
+    errors.recipients = validateEmails(values.recipients || '');
 
-    _.each(fields, ({ name, label }) => {
+    _.each(formFields, ({ name, label }) => {
         if (!values[name]) {
             errors[name] = `You must provide a ${label}`;
         }
@@ -66,5 +60,6 @@ function validate(values) {
 
 export default reduxForm({
     validate,
-    form: 'surveyForm'
+    form: 'surveyForm',
+    destroyOnUnmount: false
 })(SurveyForm);
