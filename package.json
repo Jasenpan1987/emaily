@@ -12,7 +12,8 @@
     "server": "nodemon app.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "webhook": "forever sendgrid_webhook.js"
   },
   "keywords": [],
   "author": "",
@@ -28,9 +29,14 @@
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-google-oauth20": "^1.0.0",
+    "path-parser": "^2.0.2",
     "redux-form": "^7.0.3",
     "redux-thunk": "^2.2.0",
     "sendgrid": "^5.2.2",
     "stripe": "^4.24.0"
+  },
+  "devDependencies": {
+    "forever": "^0.15.3",
+    "localtunnel": "^1.8.3"
   }
 }
